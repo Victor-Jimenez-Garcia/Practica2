@@ -1,14 +1,15 @@
 #include <iostream>
 #include <stdlib.h>
+#include <algorithm>
 #include <time.h>
 using namespace std;
+void sameChar(char a[],char b[]);
 int longitud(char[]);
 //Declaracion de las funciones que van a rotar ma matriz original.
 
 void cientochenta(int *b, int pos);
 void noventa(int *a, int pos);
 void dossetenta(int *c, int pos);
-
 //Declaracion de la funcion que va hacer llamada constantemente para imprimir cada matriz
 void mostrar(int a[][5]);
 int main()
@@ -18,15 +19,15 @@ int main()
     {
     cout<<"\n********** Ejercicios de la practica 1 **********"<<endl;
     cout<<"Presione 1 para saber el minimo de billetes dada una cantidad"<<endl;
-    cout<<"Presione 2 para saber cuantas veces se repite una letra en un arreglo"<<endl;
+    cout<<"Presione 2 para saber si dos cadenas de caracteres son iguales"<<endl;
     cout<<"Presione 3 para convertir de cadena de entero a entero"<<endl;
     cout<<"Presione 4 para cambiar de minuscula a mayuscula una cadena"<<endl;
-    cout<<"Presione 5 para separar de una cadena los numeros de las letras"<<endl;
-    cout<<"Presione 6 para separar cada n numeros y sumarlos"<<endl;
+    cout<<"Presione 5 para separar cada n numeros y sumarlos"<<endl;
+    cout<<"Presione 6 para manejar las reservas de una sala de cine"<<endl;
     cout<<"Presione 7 para saber si una matriz es cuadrado magico"<<endl;
-    cout<<"Presione 8 para saber cuantas estrellas hay en una matriz"<<endl;
-    cout<<"Presione 9 para saber la interseccion de dos rectangulos"<<endl;
-    cout<<"Presione 10 para sumar los numeros amigables menores a n"<<endl;
+    cout<<"Presione 8 para rotar una matriz de 5x5"<<endl;
+    cout<<"Presione 9 para calcular el numero de caminos posibles en una cuadricula de nxn."<<endl;
+    cout<<"Presione 10 hallar la enesima permutacion lexicografica de los numeros entre 0 y 9."<<endl;
     cout<<"Presione 0 para salir"<<endl;
     cin>>opcion;
 
@@ -59,7 +60,11 @@ int main()
       break;
    }
       case 2:{
-
+       char aArreglo[201];
+       char bArreglo[201];
+       cout<<"Ingrese cadena de caracteres uno: "; cin>>aArreglo;
+       cout<<"Ingrese cadena de caracteres dos: "; cin>>bArreglo;
+       sameChar(aArreglo,bArreglo);
        break;
 }
    case 3:{
@@ -193,8 +198,16 @@ int main()
        break;
    }
    case 10: {
+       int array[] = {0,1,2,3,4,5,6,7,8,9};
+       int  n = 0;
+       cout << "Ingrese el numero de la permutacion: " << endl;
+       cin >> n;
+       for(int i=1;i<n;i++){
+           next_permutation(array,array+10); //Halla la siguiente permutacion del arreglo
 
-
+       }
+       cout<<"La permutacion numero: "<<n<<" es ";
+       cout << array[0] << array[1] << array[2] << array[3] << array[4] << array[5] << array[6] << array[7] << array[8] << array[9]  << endl;
        break;
    }
    default:
@@ -203,6 +216,18 @@ int main()
      }
    }
     return 0;
+}
+void sameChar(char a[],char b[]) //FUNCION: compara dos cadenas de caracteres
+{   bool rslt=true;
+    for (int i=0;a[i] !='\0';i++)
+    {
+        if(a[i]==b[i]) continue; //Comparacion
+        else{
+            rslt=!rslt;
+            break;
+        }
+    }
+    cout<<rslt<<endl;
 }
 int longitud(char num[]){
     int s=0, cant=0;
@@ -213,6 +238,21 @@ int longitud(char num[]){
     }
     return cant;
 }
+
+void mostrar(int a[][5]){//implementacion de la funcion que imprime cada matriz
+    for(int fila = 0; fila <5 ; fila++)//ciclo que recorre las filas
+    {
+        for(int colum = 0; colum < 5; colum++)//ciclo que recorre las columnas
+        {
+            if(*(*(a + fila) + colum) < 10)//condicional para imprimir los numeros de un solo digito con espacios y que la matriz se vea presentable
+                cout<<" "<<*(*(a + fila) + colum)<<" ";
+            else//de lo contrario si el numero ya es de dos digitos no se imprime con espacio
+                cout<<*(*(a + fila) + colum)<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 void noventa(int *a, int pos){//implementacion de la funcion noventa que recibe un puntero y un entero
    int nov[5][5]; //declaracion de la matriz de noventa grados
    for(int i = 0; i < 5; i++) //ciclo que recorre las filas y las cambia a un columna en la ultima posicion
